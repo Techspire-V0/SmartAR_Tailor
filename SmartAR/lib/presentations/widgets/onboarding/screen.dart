@@ -1,4 +1,5 @@
 import "package:SmartAR/data/consts.dart";
+import "package:SmartAR/presentations/routes/signup.dart";
 import "package:SmartAR/presentations/widgets/onboarding/init_screens.dart";
 import "package:SmartAR/presentations/widgets/shared/button.dart";
 import "package:flutter/material.dart";
@@ -110,12 +111,12 @@ class OnboardingScreen extends StatelessWidget {
                   Button(
                     icon: Icon(
                       FontAwesome5Brands.google,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: Colors.white,
                       size: 20,
                     ),
                     text: "Sign In with Google",
-                    bgColor: Theme.of(context).colorScheme.surface,
-                    color: Theme.of(context).colorScheme.primary,
+                    bgColor: primaryColor,
+                    color: Colors.white,
                     onPressed: () {
                       // Navigate to the next screen
                     },
@@ -126,7 +127,10 @@ class OnboardingScreen extends StatelessWidget {
                     isOutline: true,
                     color: primaryColor,
                     onPressed: () {
-                      // Navigate to the next screen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => SignUpPage()),
+                      );
                     },
                   ),
                   Row(

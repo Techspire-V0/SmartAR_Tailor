@@ -40,6 +40,9 @@ dependencies:
   provider: ^6.1.5
   flutter_svg: ^2.1.0
   flutter_vector_icons: ^2.0.0
+  flutter_launcher_icons: ^0.14.3
+  form_builder_validators: ^11.1.2
+  flutter_form_builder: ^10.0.1
 
 dev_dependencies:
   flutter_test:
@@ -98,3 +101,10 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+flutter_launcher_icons:
+  image_path: "assets/images/logo.png" # Path to your icon image
+  android: true # Generate icons for Android
+  ios: true # Generate icons for iOS
+  adaptive_icon: true # Use Adaptive Icons for Android 8.1 and higher
+  remove_alpha_ios: true # Remove alpha channel from iOS icons
+  android_adaptive_icon_background: "#FFFFFF" # Background color for adaptive icons

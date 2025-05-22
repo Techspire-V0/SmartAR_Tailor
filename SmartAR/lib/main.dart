@@ -19,7 +19,7 @@ class SmartTailorOnboarding extends ConsumerWidget {
       theme: lightTheme,
       darkTheme: darkTheme,
       themeMode: themeMode,
-      home: const OnboardingScreens(),
+      home: OnboardingScreens(),
     );
   }
 }
