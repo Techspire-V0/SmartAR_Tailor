@@ -1,5 +1,12 @@
 import * as Yup from "yup";
 
+export type MiniUser = {
+  name: string;
+  email: string;
+  verified?: boolean;
+  roles: number[];
+};
+
 export const SignInSchema = Yup.object().shape({
   email: Yup.string()
     .email("Invalid email address")

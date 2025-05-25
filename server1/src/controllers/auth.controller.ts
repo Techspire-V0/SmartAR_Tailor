@@ -40,11 +40,19 @@ export const signup = validator.catchError(
         name: username,
         roles: [0],
       },
+      select: {
+        email: true,
+        name: true,
+        roles: true,
+        verified: true,
+      },
     });
 
     const tokens = await utils.generateAuthJWT(email);
 
-    res.status(200).json({ message: "Login successful", ...tokens });
+    res
+      .status(200)
+      .json({ message: "Login successful", token: tokens, user: req.user });
   }
 );
 
@@ -60,11 +68,13 @@ export const signin = validator.catchError(
 
     const tokens = await utils.generateAuthJWT(email);
 
-    res.status(200).json({ message: "Login successful", ...tokens });
+    res
+      .status(200)
+      .json({ message: "Login successful", token: tokens, user: req.user });
   }
 );
 
-export const googleSignUp = validator.catchError(
+export const googleAuth = validator.catchError(
   async (req: AuthenticatedRequest, res: Response) => {
     await validator.signUpGoogle(req.body);
 
@@ -77,36 +87,32 @@ export const googleSignUp = validator.catchError(
     const email = payload?.email!;
     const name = payload?.name;
 
-    await middleware.alreadySignedUp(email.trim());
     await middleware.alreadySignedIn(req.user);
 
-    req.user = await db.user.create({
-      data: { email, name: name as string, roles: [0] },
+    const user = await db.user.findUnique({
+      where: { email: email },
+      select: { email: true, name: true, roles: true, verified: true },
     });
+
+    if (user) {
+      req.user = user;
+    } else {
+      req.user = await db.user.create({
+        data: { email, name: name as string, roles: [0] },
+        select: {
+          email: true,
+          name: true,
+          roles: true,
+          verified: true,
+        },
+      });
+    }
 
     const tokens = await utils.generateAuthJWT(email);
 
-    res.status(200).json({ message: "Signed Up successful", ...tokens });
-  }
-);
-
-export const googleSignIn = validator.catchError(
-  async (req: AuthenticatedRequest, res: Response) => {
-    await validator.signUpGoogle(req.body);
-
-    const { idToken } = req.body;
-    const ticket = await client.verifyIdToken({
-      idToken,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
-    const payload = ticket.getPayload();
-    const email = payload?.email!;
-
-    req.user = await middleware.checkLoginCredentials(email);
-
-    const tokens = await utils.generateAuthJWT(email);
-
-    res.status(200).json({ message: "Login successful", ...tokens });
+    res
+      .status(200)
+      .json({ message: "Signed In successful", token: tokens, user: req.user });
   }
 );
 

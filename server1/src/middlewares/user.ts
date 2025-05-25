@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { db } from "../db/connect";
-import { User } from "@prisma/client";
+import { MiniUser } from "../types/auth";
 
 export interface AuthenticatedRequest extends Request {
-  user?: User | null;
+  user?: MiniUser | null;
 }
 
 export const authenticate = async (

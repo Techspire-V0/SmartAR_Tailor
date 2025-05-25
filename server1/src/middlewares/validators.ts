@@ -56,7 +56,8 @@ class Validator {
           error = err.message;
           status = err.status;
         }
-        res.status(status).json({ error });
+
+        res.status(status).send(error);
       }
     };
   };
