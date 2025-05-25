@@ -1,6 +1,7 @@
 import 'package:SmartAR/data/sources/providers/index.dart';
 import 'package:SmartAR/presentations/widgets/onboarding/init_screens.dart';
 import 'package:SmartAR/presentations/widgets/onboarding/screen.dart';
+import 'package:SmartAR/presentations/widgets/shared/status_message_box.dart';
 import 'package:SmartAR/presentations/widgets/shared/theme/toggle.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -43,6 +43,12 @@ dependencies:
   flutter_launcher_icons: ^0.14.3
   form_builder_validators: ^11.1.2
   flutter_form_builder: ^10.0.1
+  camera: ^0.11.1
+  path_provider: ^2.1.5
+  path: ^1.9.1
+  google_sign_in: ^6.3.0
+  flutter_secure_storage: ^9.2.4
+  dio: ^5.8.0+1
 
 dev_dependencies:
   flutter_test:
@@ -75,6 +81,11 @@ flutter:
     - assets/images/home_3_2.png
     - assets/images/logo.png
     - assets/images/logo2.png
+    - assets/images/scan_pose.png
+    - assets/images/tight_cloth.png
+    - assets/images/full_pose.png
+    - assets/images/human_overlay.png
+    - assets/images/google_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

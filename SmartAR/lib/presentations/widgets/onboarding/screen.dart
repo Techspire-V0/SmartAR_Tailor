@@ -1,12 +1,17 @@
+import "package:SmartAR/core/services/auth_services.dart";
 import "package:SmartAR/data/consts.dart";
+import "package:SmartAR/data/sources/providers/index.dart";
+import "package:SmartAR/presentations/routes/pre_scan.dart";
 import "package:SmartAR/presentations/routes/signup.dart";
 import "package:SmartAR/presentations/widgets/onboarding/init_screens.dart";
 import "package:SmartAR/presentations/widgets/shared/button.dart";
+import "package:SmartAR/presentations/widgets/shared/status_message_box.dart";
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_vector_icons/flutter_vector_icons.dart";
 import "package:smooth_page_indicator/smooth_page_indicator.dart";
 
-class OnboardingScreen extends StatelessWidget {
+class OnboardingScreen extends ConsumerWidget {
   const OnboardingScreen({
     super.key,
     required this.page,
@@ -19,7 +24,9 @@ class OnboardingScreen extends StatelessWidget {
   final Color whiteMode = Colors.white;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.watch(authProvider);
+
     return Center(
       child: Column(
         children: [
@@ -108,37 +115,36 @@ class OnboardingScreen extends StatelessWidget {
               )
               : Column(
                 children: [
-                  Button(
-                    icon: Icon(
-                      FontAwesome5Brands.google,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                    text: "Sign In with Google",
-                    bgColor: primaryColor,
-                    color: Colors.white,
-                    onPressed: () {
-                      // Navigate to the next screen
-                    },
-                  ),
+                  auth.isAuth
+                      ? SizedBox.shrink()
+                      : Button(
+                        icon: Image.asset(
+                          'assets/images/google_logo.png',
+                          width: 22,
+                        ),
+                        text: "Sign In with Google",
+                        bgColor: primaryColor,
+                        color: Colors.white,
+                        onPressed: () async {
+                          await authServices.googleAuth(ref);
+                          StatusOverlay.show(context, ref);
+                        },
+                      ),
                   const SizedBox(height: 10),
                   Button(
-                    text: "Create an account",
+                    text: auth.isAuth ? "Get Started" : "Create an account",
                     isOutline: true,
                     color: primaryColor,
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => SignUpPage()),
+                        MaterialPageRoute(
+                          builder:
+                              (_) =>
+                                  auth.isAuth ? PreScanScreen() : SignUpPage(),
+                        ),
                       );
                     },
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("Already have an account?"),
-                      TextButton(onPressed: () {}, child: const Text("Login")),
-                    ],
                   ),
                 ],
               ),

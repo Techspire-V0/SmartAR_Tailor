@@ -26,6 +26,8 @@ final lightTheme = ThemeData(
     bodyMedium: TextStyle(color: textSecondary),
     bodySmall: TextStyle(color: Colors.black54),
   ),
+  bottomAppBarTheme: const BottomAppBarTheme(color: Colors.white, elevation: 0),
+  bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.transparent),
   // More light theme properties here
 );
 
@@ -53,6 +55,8 @@ final darkTheme = ThemeData(
     bodyMedium: TextStyle(color: Colors.white),
     bodySmall: TextStyle(color: Colors.white),
   ),
+  bottomAppBarTheme: const BottomAppBarTheme(color: Colors.black, elevation: 0),
+  bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.transparent),
   // More dark theme properties here
 );
 
