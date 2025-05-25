@@ -68,239 +68,214 @@ class _SignInPageState extends ConsumerState<SignInPage> {
                   ),
                   padding: const EdgeInsets.all(24.0),
                   child: SingleChildScrollView(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minHeight: MediaQuery.of(context).size.height,
-                      ),
-                      child: IntrinsicHeight(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(height: 8),
-                            Text(
-                              'Welcome Back',
-                              style: TextStyle(
-                                fontSize: 24,
-                                color: Theme.of(context).colorScheme.secondary,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              'Hello there, sign in to continue',
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.tertiary,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            const SizedBox(height: 24),
-                            FormBuilder(
-                              key: _formKey,
-                              autovalidateMode: AutovalidateMode.onUnfocus,
-                              child: Column(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      'Email or Username',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color:
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.tertiary,
-                                      ),
-                                    ),
-                                  ),
-                                  FormBuilderTextField(
-                                    name: 'email',
-                                    decoration: InputDecoration(
-                                      // Remove labelText to avoid double label
-                                      hintText: 'Enter your email or username',
-                                      hintStyle: TextStyle(
-                                        color:
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.tertiary,
-                                        fontSize: 15,
-                                      ),
-                                      fillColor: colorGrayLight,
-                                      filled: true,
-                                      contentPadding: const EdgeInsets.symmetric(
-                                        horizontal:
-                                            18, // must match label left padding
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                    ),
-                                    style: TextStyle(
-                                      color:
-                                          Theme.of(
-                                            context,
-                                          ).colorScheme.tertiary,
-                                    ),
-                                    keyboardType: TextInputType.emailAddress,
-                                    validator: FormBuilderValidators.compose([
-                                      FormBuilderValidators.required(),
-                                      FormBuilderValidators.email(),
-                                    ]),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      'Password',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color:
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.tertiary,
-                                      ),
-                                    ),
-                                  ),
-                                  FormBuilderTextField(
-                                    name: 'password',
-                                    decoration: InputDecoration(
-                                      // Remove labelText to avoid double label
-                                      hintText: 'Enter your password',
-                                      hintStyle: TextStyle(
-                                        color:
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.tertiary,
-                                        fontSize: 15,
-                                      ),
-                                      fillColor: colorGrayLight,
-                                      filled: true,
-                                      contentPadding: const EdgeInsets.symmetric(
-                                        vertical: 12,
-                                        horizontal:
-                                            18, // must match label left padding
-                                      ),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                      suffixIcon: IconButton(
-                                        icon: Icon(
-                                          _obscurePassword
-                                              ? Icons.visibility_off
-                                              : Icons.visibility,
-                                          color: textSecondary,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            _obscurePassword =
-                                                !_obscurePassword;
-                                          });
-                                        },
-                                      ),
-                                    ),
-                                    style: TextStyle(
-                                      color:
-                                          Theme.of(
-                                            context,
-                                          ).colorScheme.tertiary,
-                                    ),
-                                    obscureText: _obscurePassword,
-                                    validator: FormBuilderValidators.compose([
-                                      FormBuilderValidators.required(),
-                                      FormBuilderValidators.minLength(6),
-                                    ]),
-                                  ),
-
-                                  const SizedBox(height: 24),
-                                  Button(
-                                    text: 'SignIn',
-                                    color: Colors.white,
-                                    bgColor:
-                                        _formKey.currentState?.validate() ??
-                                                false
-                                            ? primaryColor
-                                            : const Color.fromARGB(
-                                              255,
-                                              189,
-                                              189,
-                                              189,
-                                            ),
-                                    onPressed: () {
-                                      if (_formKey.currentState!.validate()) {
-                                        // Handle sign in logic
-                                        final data =
-                                            _formKey.currentState!.value;
-                                        authServices.auth(ref, data);
-                                      }
-                                    },
-                                  ),
-
-                                  const SizedBox(height: 24),
-                                  // Add "or" separator
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: Divider(
-                                          color:
-                                              Theme.of(
-                                                context,
-                                              ).colorScheme.tertiary,
-                                          thickness: 0.5,
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 8.0,
-                                        ),
-                                        child: Text(
-                                          "or",
-                                          style: TextStyle(
-                                            color:
-                                                Theme.of(
-                                                  context,
-                                                ).colorScheme.tertiary,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Divider(
-                                          color:
-                                              Theme.of(
-                                                context,
-                                              ).colorScheme.tertiary,
-                                          thickness: 0.5,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-
-                                  const SizedBox(height: 24),
-
-                                  // Add "Continue with Google" button
-                                  Button(
-                                    isOutline: true,
-                                    icon: Image.asset(
-                                      'assets/images/google_logo.png',
-                                      width: 22,
-                                    ),
-                                    text: "Continue with Google",
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 8),
+                        Text(
+                          'Welcome Back',
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: Theme.of(context).colorScheme.secondary,
+                            fontWeight: FontWeight.w900,
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          'Hello there, sign in to continue',
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.tertiary,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        FormBuilder(
+                          key: _formKey,
+                          autovalidateMode: AutovalidateMode.onUnfocus,
+                          child: Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Email',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
                                     color:
                                         Theme.of(context).colorScheme.tertiary,
-                                    onPressed: () async {
-                                      await authServices.googleAuth(ref);
-                                      StatusOverlay.show(context, ref);
+                                  ),
+                                ),
+                              ),
+                              FormBuilderTextField(
+                                name: 'email',
+                                decoration: InputDecoration(
+                                  // Remove labelText to avoid double label
+                                  hintText: 'Enter your email',
+                                  hintStyle: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
+                                    fontSize: 15,
+                                  ),
+                                  fillColor: colorGrayLight,
+                                  filled: true,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    horizontal:
+                                        18, // must match label left padding
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                ),
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                ),
+                                keyboardType: TextInputType.emailAddress,
+                                validator: FormBuilderValidators.compose([
+                                  FormBuilderValidators.required(),
+                                  FormBuilderValidators.email(),
+                                ]),
+                              ),
+                              const SizedBox(height: 16),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Password',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
+                                  ),
+                                ),
+                              ),
+                              FormBuilderTextField(
+                                name: 'password',
+                                decoration: InputDecoration(
+                                  // Remove labelText to avoid double label
+                                  hintText: 'Enter your password',
+                                  hintStyle: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
+                                    fontSize: 15,
+                                  ),
+                                  fillColor: colorGrayLight,
+                                  filled: true,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                    horizontal:
+                                        18, // must match label left padding
+                                  ),
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide.none,
+                                  ),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _obscurePassword
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                      color: textSecondary,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        _obscurePassword = !_obscurePassword;
+                                      });
                                     },
                                   ),
+                                ),
+                                style: TextStyle(
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                ),
+                                obscureText: _obscurePassword,
+                                validator: FormBuilderValidators.compose([
+                                  FormBuilderValidators.required(),
+                                  FormBuilderValidators.minLength(6),
+                                ]),
+                              ),
 
-                                  const SizedBox(height: 24),
+                              const SizedBox(height: 24),
+                              Button(
+                                text: 'SignIn',
+                                color: Colors.white,
+                                bgColor:
+                                    _formKey.currentState?.validate() ?? false
+                                        ? primaryColor
+                                        : const Color.fromARGB(
+                                          255,
+                                          189,
+                                          189,
+                                          189,
+                                        ),
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    // Handle sign in logic
+                                    final data = _formKey.currentState!.value;
+                                    authServices.auth(ref, data);
+                                  }
+                                },
+                              ),
+
+                              const SizedBox(height: 24),
+                              // Add "or" separator
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Divider(
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.tertiary,
+                                      thickness: 0.5,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0,
+                                    ),
+                                    child: Text(
+                                      "or",
+                                      style: TextStyle(
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.tertiary,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Divider(
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.tertiary,
+                                      thickness: 0.5,
+                                    ),
+                                  ),
                                 ],
                               ),
-                            ),
-                          ],
+
+                              const SizedBox(height: 24),
+
+                              // Add "Continue with Google" button
+                              Button(
+                                isOutline: true,
+                                icon: Image.asset(
+                                  'assets/images/google_logo.png',
+                                  width: 22,
+                                ),
+                                text: "Continue with Google",
+                                color: Theme.of(context).colorScheme.tertiary,
+                                onPressed: () async {
+                                  await authServices.googleAuth(ref);
+                                  StatusOverlay.show(context, ref);
+                                },
+                              ),
+
+                              const SizedBox(height: 24),
+                            ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                   ),
                 ),
