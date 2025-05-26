@@ -14,6 +14,7 @@ export const authenticate = async (
 ) => {
   try {
     const authHeader = req.headers.authorization;
+
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       throw new Error();
     }

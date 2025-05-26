@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:smartar/data/consts.dart';
+import 'package:smartar/presentations/routes/me.dart';
 import 'package:smartar/presentations/routes/pre_scan.dart';
-import 'package:smartar/presentations/routes/settings.dart';
+import 'package:smartar/presentations/routes/others.dart';
 import 'package:smartar/presentations/routes/shop.dart';
 
 class BottomNav extends StatelessWidget {
@@ -13,6 +15,9 @@ class BottomNav extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: pageIndex, // 1 for scan
       backgroundColor: Theme.of(context).bottomAppBarTheme.color,
+      selectedItemColor: primaryColor,
+      selectedLabelStyle: TextStyle(fontSize: 0),
+      type: BottomNavigationBarType.fixed,
       onTap: (index) {
         if (index == 0 && pageIndex != index) {
           Navigator.of(context).push(
@@ -35,7 +40,16 @@ class BottomNav extends StatelessWidget {
         } else if (index == 2 && pageIndex != index) {
           Navigator.of(context).push(
             PageRouteBuilder(
-              pageBuilder: (_, __, ___) => const SeetingsScreen(),
+              pageBuilder: (_, __, ___) => const MeScreen(),
+              transitionsBuilder:
+                  (_, animation, __, child) =>
+                      FadeTransition(opacity: animation, child: child),
+            ),
+          );
+        } else if (index == 3 && pageIndex != index) {
+          Navigator.of(context).push(
+            PageRouteBuilder(
+              pageBuilder: (_, __, ___) => const OthersScreen(),
               transitionsBuilder:
                   (_, animation, __, child) =>
                       FadeTransition(opacity: animation, child: child),
@@ -44,18 +58,13 @@ class BottomNav extends StatelessWidget {
         }
       },
       items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Ionicons.camera_outline),
-          label: 'Scan',
-        ),
+        BottomNavigationBarItem(icon: Icon(Ionicons.camera_outline), label: ''),
         BottomNavigationBarItem(
           icon: Icon(MaterialIcons.shopping_cart),
-          label: 'Shop',
+          label: '',
         ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.settings_outlined),
-          label: 'Settings',
-        ),
+        BottomNavigationBarItem(icon: Icon(Icons.person_3_outlined), label: ''),
+        BottomNavigationBarItem(icon: Icon(Octicons.three_bars), label: ''),
       ],
     );
   }

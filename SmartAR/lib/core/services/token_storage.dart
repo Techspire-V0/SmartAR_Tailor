@@ -8,7 +8,7 @@ class _TokenStorage {
 
   Future<void> saveTokens(JwtToken token) async {
     await _storage.write(key: 'access_token', value: token.accessToken);
-    await _storage.write(key: 'refresh_token', value: token.accessToken);
+    await _storage.write(key: 'refresh_token', value: token.refreshToken);
   }
 
   Future<String?> getAccessToken() async {

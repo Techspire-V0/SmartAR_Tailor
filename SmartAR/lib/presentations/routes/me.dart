@@ -6,8 +6,8 @@ import 'package:smartar/presentations/widgets/shared/button_nav.dart';
 import 'package:smartar/presentations/widgets/shared/status_overlay.dart';
 import 'package:smartar/presentations/widgets/shared/theme/toggle.dart';
 
-class SeetingsScreen extends ConsumerWidget {
-  const SeetingsScreen({super.key});
+class MeScreen extends ConsumerWidget {
+  const MeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

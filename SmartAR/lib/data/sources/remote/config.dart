@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:smartar/core/services/token_storage.dart';
 import 'package:smartar/core/types/auth.dart';
@@ -20,9 +22,17 @@ class ReqHandler {
     ),
   );
 
-  void _handleBearerToken(JwtToken tokens) {
+  ReqHandler() {
+    (_baseDio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
+      final client = HttpClient();
+      client.badCertificateCallback = (cert, host, port) => host == apiHost;
+      return client;
+    };
+  }
+
+  Future<void> _handleBearerToken(JwtToken tokens) async {
     // Update headers on all instances
-    tokenStorage.saveTokens(tokens);
+    await tokenStorage.saveTokens(tokens);
 
     for (var instance in _instances) {
       instance.options.headers['Authorization'] =
@@ -77,16 +87,18 @@ class ReqHandler {
         _isRefreshing = true;
 
         try {
+          final refreshToken = await tokenStorage.getRefreshToken();
           _refreshFuture = _baseDio.post<Map<String, dynamic>>(
-            '/api/auth/refresh-token',
+            '/auth/refresh_token',
+            data: {"token": refreshToken},
           );
 
           final refreshResponse = await _refreshFuture!;
           final APIRes<dynamic> authRes = refreshResponse.data!;
-          final data = JwtToken.fromJson(authRes.data);
 
+          final data = JwtToken.fromJson(authRes.data);
           // Add access token to instances header
-          _handleBearerToken(data);
+          await _handleBearerToken(data);
 
           // Retry the original request
           originalRequest.extra['_retry'] = true;

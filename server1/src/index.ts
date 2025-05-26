@@ -28,7 +28,7 @@ if (isProduction) {
 
   app.use(authenticate);
 
-  app.get("/api/auth/try_sign_in", trySignIn);
+  app.post("/api/auth/try_sign_in", trySignIn);
   app.post("/api/auth/sign_in", signin);
   app.post("/api/auth/sign_up", signup);
 

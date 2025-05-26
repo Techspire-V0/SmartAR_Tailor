@@ -22,6 +22,8 @@ class AuthNotifier extends StateNotifier<AuthState> {
   }
 
   void logout() {
-    state = AuthState(user: null);
+    if (state.user != null) {
+      state = AuthState(user: null);
+    }
   }
 }

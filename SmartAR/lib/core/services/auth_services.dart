@@ -73,7 +73,7 @@ class _AuthService {
 
   Future<void> tryAuth(WidgetRef ref) async {
     // try {
-    final Response<APIRes<dynamic>> response = await authHttp.get(
+    final Response<APIRes<dynamic>> response = await authHttp.post(
       '/try_sign_in',
     );
 
