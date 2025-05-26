@@ -17,9 +17,15 @@ class StatusCode {
 class AuthRes {
   final JwtToken token;
   final MiniUser user;
-  final String message;
 
-  AuthRes({required this.message, required this.user, required this.token});
+  AuthRes({required this.user, required this.token});
+
+  factory AuthRes.fromJson(Map<String, dynamic> json) {
+    return AuthRes(
+      user: MiniUser.fromJson(json["user"]),
+      token: JwtToken.fromJson(json['token']),
+    );
+  }
 }
 
 class MiniUser {
@@ -33,6 +39,15 @@ class MiniUser {
     required this.roles,
     required this.verified,
   });
+
+  factory MiniUser.fromJson(Map<String, dynamic> json) {
+    return MiniUser(
+      email: json['email'],
+      name: json['name'],
+      roles: List<int>.from(json['roles']),
+      verified: json['verified'],
+    );
+  }
 }
 
 class JwtToken {
@@ -40,6 +55,13 @@ class JwtToken {
   final String refreshToken;
 
   JwtToken({required this.accessToken, required this.refreshToken});
+
+  factory JwtToken.fromJson(Map<String, dynamic> json) {
+    return JwtToken(
+      accessToken: json['accessToken'] ?? '',
+      refreshToken: json['refreshToken'],
+    );
+  }
 }
 
 class APIErrorDTO {

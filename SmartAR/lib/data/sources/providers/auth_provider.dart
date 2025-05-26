@@ -1,4 +1,5 @@
-import 'package:SmartAR/core/types/auth.dart';
+import 'package:smartar/core/services/auth_services.dart';
+import 'package:smartar/core/types/auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthState {
@@ -14,6 +15,10 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
   void login(MiniUser user) {
     state = AuthState(user: user);
+  }
+
+  Future<void> tryAuth(WidgetRef ref) async {
+    await authServices.tryAuth(ref);
   }
 
   void logout() {

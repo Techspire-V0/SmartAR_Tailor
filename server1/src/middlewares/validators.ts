@@ -57,7 +57,8 @@ class Validator {
           status = err.status;
         }
 
-        res.status(status).send(error);
+        res.statusMessage = error;
+        res.status(status);
       }
     };
   };

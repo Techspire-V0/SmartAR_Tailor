@@ -1,14 +1,12 @@
-import "package:SmartAR/core/services/auth_services.dart";
-import "package:SmartAR/data/consts.dart";
-import "package:SmartAR/data/sources/providers/index.dart";
-import "package:SmartAR/presentations/routes/pre_scan.dart";
-import "package:SmartAR/presentations/routes/signup.dart";
-import "package:SmartAR/presentations/widgets/onboarding/init_screens.dart";
-import "package:SmartAR/presentations/widgets/shared/button.dart";
-import "package:SmartAR/presentations/widgets/shared/status_message_box.dart";
 import "package:flutter/material.dart";
 import "package:flutter_riverpod/flutter_riverpod.dart";
-import "package:flutter_vector_icons/flutter_vector_icons.dart";
+import "package:smartar/core/services/auth_services.dart";
+import "package:smartar/data/consts.dart";
+import "package:smartar/data/sources/providers/index.dart";
+import "package:smartar/presentations/routes/pre_scan.dart";
+import "package:smartar/presentations/routes/signup.dart";
+import "package:smartar/presentations/widgets/onboarding/init_screens.dart";
+import "package:smartar/presentations/widgets/shared/button.dart";
 import "package:smooth_page_indicator/smooth_page_indicator.dart";
 
 class OnboardingScreen extends ConsumerWidget {
@@ -127,7 +125,6 @@ class OnboardingScreen extends ConsumerWidget {
                         color: Colors.white,
                         onPressed: () async {
                           await authServices.googleAuth(ref);
-                          StatusOverlay.show(context, ref);
                         },
                       ),
                   const SizedBox(height: 10),

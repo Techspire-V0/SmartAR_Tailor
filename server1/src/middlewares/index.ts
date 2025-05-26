@@ -6,8 +6,8 @@ import consts from "../types/conts";
 import { MiniUser } from "../types/auth";
 
 class MiddleWare {
-  public checkUser(user: User | null) {
-    if (!!user) {
+  public checkUser(user?: MiniUser | null) {
+    if (!user) {
       throw new HttpError(consts.errors.signIn, 401);
     }
   }

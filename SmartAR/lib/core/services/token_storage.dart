@@ -1,4 +1,4 @@
-import 'package:SmartAR/core/types/auth.dart';
+import 'package:smartar/core/types/auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class _TokenStorage {

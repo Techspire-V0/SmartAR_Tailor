@@ -1,20 +1,29 @@
-import 'package:SmartAR/presentations/widgets/shared/BottomNav.dart';
-import 'package:SmartAR/presentations/widgets/shared/theme/toggle.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smartar/presentations/routes/signin.dart';
+import 'package:smartar/presentations/widgets/shared/auth_guard.dart';
+import 'package:smartar/presentations/widgets/shared/button_nav.dart';
+import 'package:smartar/presentations/widgets/shared/status_overlay.dart';
+import 'package:smartar/presentations/widgets/shared/theme/toggle.dart';
 
 class SeetingsScreen extends ConsumerWidget {
   const SeetingsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: Image.asset("assets/images/logo.png"),
-        actions: [ThemeToggle()],
+    return AuthGuard(
+      redirectChild: SignInPage(),
+      isNegativeAuth: false,
+      child: StatusOverlayListener(
+        child: Scaffold(
+          appBar: AppBar(
+            leading: Image.asset("assets/images/logo.png"),
+            actions: [ThemeToggle()],
+          ),
+          body: Column(children: []),
+          bottomNavigationBar: BottomNav(pageIndex: 2),
+        ),
       ),
-      body: Column(children: []),
-      bottomNavigationBar: BottomNav(pageIndex: 2),
     );
   }
 }

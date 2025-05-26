@@ -1,13 +1,14 @@
 import 'dart:io';
 
-import 'package:SmartAR/data/consts.dart';
-import 'package:SmartAR/presentations/widgets/shared/theme/toggle.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:camera/camera.dart';
-import "package:SmartAR/core/services/camera_services.dart";
 import 'package:path_provider/path_provider.dart';
+import 'package:smartar/core/services/camera_services.dart';
+import 'package:smartar/data/consts.dart';
 import 'dart:async';
+
+import 'package:smartar/presentations/widgets/shared/theme/toggle.dart';
 
 class ScanScreen extends ConsumerStatefulWidget {
   const ScanScreen({super.key});

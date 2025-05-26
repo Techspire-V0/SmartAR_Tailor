@@ -1,8 +1,7 @@
 import 'dart:io';
-
-import 'package:SmartAR/core/services/token_storage.dart';
-import 'package:SmartAR/core/types/auth.dart';
-import 'package:SmartAR/data/consts.dart';
+import 'package:smartar/core/services/token_storage.dart';
+import 'package:smartar/core/types/auth.dart';
+import 'package:smartar/data/consts.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 
@@ -46,7 +45,7 @@ class ReqHandler {
       status: APIStatus(
         code: StatusCode.timeout,
         message:
-            'Your request took too long to process. Please check your connection and try again.',
+            'Your request took too long to process. \nPlease check your connection and try again.',
         success: false,
       ),
     );
@@ -61,7 +60,7 @@ class ReqHandler {
       data: response.data,
       status: APIStatus(
         code: code,
-        message: response.data?.message ?? response.statusMessage ?? 'Success',
+        message: response.statusMessage ?? 'Success',
         success: code == 200,
       ),
     );
@@ -83,10 +82,11 @@ class ReqHandler {
           );
 
           final refreshResponse = await _refreshFuture!;
-          final APIRes<JwtToken> authRes = refreshResponse.data!;
+          final APIRes<dynamic> authRes = refreshResponse.data!;
+          final data = JwtToken.fromJson(authRes.data);
 
           // Add access token to instances header
-          _handleBearerToken(authRes.data as JwtToken);
+          _handleBearerToken(data);
 
           // Retry the original request
           originalRequest.extra['_retry'] = true;
@@ -95,7 +95,7 @@ class ReqHandler {
           _isRefreshing = false;
           _refreshFuture = null;
 
-          return res.data as APIRes<dynamic>;
+          return res.data;
         } catch (refreshError) {
           // Reset auth state - integrate with your state management
           tokenStorage.logout();
@@ -109,7 +109,7 @@ class ReqHandler {
 
           originalRequest.extra['_retry'] = true;
           final response = await instance.fetch(originalRequest);
-          return response.data as APIRes<dynamic>;
+          return response.data;
         } catch (error) {
           return prevStatus;
         }
@@ -178,7 +178,8 @@ class ReqHandler {
                     ? StatusCode.success
                     : code;
 
-            final message = error.response!.data ?? 'Internal Server error';
+            final message =
+                error.response!.statusMessage ?? 'Internal Server error';
 
             errorResponse = APIRes(
               status: APIStatus(

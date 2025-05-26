@@ -1,15 +1,13 @@
-import 'package:SmartAR/data/consts.dart';
-import 'package:SmartAR/presentations/routes/pre_scan.dart';
-import 'package:SmartAR/presentations/routes/shop.dart';
-import 'package:SmartAR/presentations/routes/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:smartar/presentations/routes/pre_scan.dart';
+import 'package:smartar/presentations/routes/settings.dart';
+import 'package:smartar/presentations/routes/shop.dart';
 
 class BottomNav extends StatelessWidget {
   const BottomNav({super.key, required this.pageIndex});
 
   final int pageIndex;
-
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(

@@ -1,6 +1,6 @@
-import 'package:SmartAR/data/sources/providers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smartar/data/sources/providers/index.dart';
 
 class ThemeToggle extends ConsumerWidget {
   const ThemeToggle({super.key});

@@ -1,4 +1,4 @@
-import 'package:SmartAR/data/consts.dart';
+import 'package:smartar/data/consts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -1,5 +1,5 @@
-import "package:SmartAR/data/consts.dart";
 import "package:flutter/material.dart";
+import "package:smartar/data/consts.dart";
 
 class Button extends StatelessWidget {
   const Button({
@@ -35,63 +35,66 @@ class Button extends StatelessWidget {
         (theme.brightness == Brightness.dark ? Colors.white : textPrimary);
 
     Widget buildButtonChild() {
-      if (icon != null) {
-        return Stack(
-          alignment: Alignment.center,
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16),
-                child: icon!,
-              ),
-            ),
-            Center(
-              child: Text(
-                text,
-                style: TextStyle(fontSize: 16, color: effectiveTextColor),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
-        );
-      } else {
-        return Text(
-          text,
-          style: TextStyle(fontSize: 16, color: effectiveTextColor),
-        );
-      }
-    }
-
-    if (isOutline) {
-      return SizedBox(
-        width: MediaQuery.of(context).size.width - 28,
-        child: OutlinedButton(
-          onPressed: onPressed,
-          style: OutlinedButton.styleFrom(
-            side: BorderSide(color: effectiveTextColor),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius),
+      return Stack(
+        alignment: Alignment.center,
+        children: [
+          icon != null
+              ? Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16),
+                  child: icon!,
+                ),
+              )
+              : SizedBox.shrink(),
+          Center(
+            child: Text(
+              text,
+              style: TextStyle(fontSize: 16, color: effectiveTextColor),
+              textAlign: TextAlign.center,
             ),
           ),
-          child: buildButtonChild(),
-        ),
+          isLoading
+              ? Align(
+                alignment: Alignment.centerRight,
+                child: SizedBox(
+                  width: 17,
+                  height: 17,
+                  child: CircularProgressIndicator(
+                    color: color,
+                    strokeWidth: 2,
+                  ),
+                ),
+              )
+              : SizedBox.shrink(),
+        ],
       );
     }
 
     return SizedBox(
       width: MediaQuery.of(context).size.width - 28,
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: effectiveBgColor,
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(borderRadius),
-          ),
-        ),
-        child: buildButtonChild(),
-      ),
+      child:
+          isOutline
+              ? OutlinedButton(
+                onPressed: !isDisabled ? onPressed : null,
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: effectiveTextColor),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                  ),
+                ),
+                child: buildButtonChild(),
+              )
+              : ElevatedButton(
+                onPressed: !isDisabled ? onPressed : null,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: effectiveBgColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(borderRadius),
+                  ),
+                ),
+                child: buildButtonChild(),
+              ),
     );
   }
 }

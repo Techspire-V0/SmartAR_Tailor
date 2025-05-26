@@ -1,4 +1,4 @@
-import 'package:SmartAR/data/sources/remote/config.dart';
+import 'package:smartar/data/sources/remote/config.dart';
 
 final reqHandler = ReqHandler();
 final authHttp = reqHandler.createHttpClient('/auth');

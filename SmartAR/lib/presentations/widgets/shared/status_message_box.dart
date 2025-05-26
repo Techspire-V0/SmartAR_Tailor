@@ -1,7 +1,7 @@
-import 'package:SmartAR/data/sources/providers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_vector_icons/flutter_vector_icons.dart';
+import 'package:smartar/data/sources/providers/index.dart';
 
 class StatusOverlay {
   static OverlayEntry? _overlayEntry;
@@ -14,7 +14,9 @@ class StatusOverlay {
 
   static void show(BuildContext context, WidgetRef ref) {
     _overlayEntry?.remove();
+
     final status = ref.watch(statusMessageProv);
+    final overlay = Overlay.of(context, rootOverlay: true);
 
     if (status == null) return;
 
@@ -55,8 +57,12 @@ class StatusOverlay {
       },
     );
 
-    Overlay.of(context, rootOverlay: true).insert(_overlayEntry!);
+    overlay.insert(_overlayEntry!);
 
-    Future.delayed(const Duration(seconds: 5), () => close(ref));
+    Future.delayed(const Duration(seconds: 5), () {
+      if (_overlayEntry != null) {
+        close(ref); // Only call if still active
+      }
+    });
   }
 }

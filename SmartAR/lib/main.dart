@@ -1,6 +1,6 @@
-import 'package:SmartAR/data/sources/providers/index.dart';
-import 'package:SmartAR/data/sources/providers/theme_provider.dart';
-import 'package:SmartAR/presentations/routes/landing.dart';
+import 'package:smartar/data/sources/providers/index.dart';
+import 'package:smartar/data/sources/providers/theme_provider.dart';
+import 'package:smartar/presentations/routes/landing.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,6 +15,8 @@ class SmartTailorOnboarding extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(themeProvider);
 
+    ref.read(authProvider.notifier).tryAuth(ref);
+
     return MaterialApp(
       theme: lightTheme,
       darkTheme: darkTheme,
@@ -23,3 +25,4 @@ class SmartTailorOnboarding extends ConsumerWidget {
     );
   }
 }
+// #23AGggf#

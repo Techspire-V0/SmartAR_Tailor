@@ -24,7 +24,7 @@ export const authenticate = async (
     const decoded = jwt.verify(token, secret) as JwtPayload;
 
     const user = await db.user.findUnique({
-      where: { id: decoded?.email },
+      where: { email: decoded?.email },
     });
 
     if (!user) throw new Error();

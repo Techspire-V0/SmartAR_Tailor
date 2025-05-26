@@ -21,9 +21,10 @@ const client = new OAuth2Client(
 
 export const signup = validator.catchError(
   async (req: AuthenticatedRequest, res: Response) => {
+    console.log(req.body);
     await validator.signUp(req.body);
 
-    const { password, email, username } = req.body as any as InferType<
+    const { password, email, name } = req.body as any as InferType<
       typeof SignUpSchema
     >;
 
@@ -37,7 +38,7 @@ export const signup = validator.catchError(
       data: {
         pwd,
         email,
-        name: username,
+        name,
         roles: [0],
       },
       select: {
@@ -50,15 +51,14 @@ export const signup = validator.catchError(
 
     const tokens = await utils.generateAuthJWT(email);
 
-    res
-      .status(200)
-      .json({ message: "Login successful", token: tokens, user: req.user });
+    res.statusMessage = "Login successful";
+    res.status(200).json({ token: tokens, user: req.user });
   }
 );
 
 export const signin = validator.catchError(
   async (req: AuthenticatedRequest, res: Response) => {
-    await validator.signUp(req.body);
+    await validator.signIn(req.body);
 
     const { password, email } = req.body as any as InferType<
       typeof SignInSchema
@@ -68,9 +68,8 @@ export const signin = validator.catchError(
 
     const tokens = await utils.generateAuthJWT(email);
 
-    res
-      .status(200)
-      .json({ message: "Login successful", token: tokens, user: req.user });
+    res.statusMessage = "Login successful";
+    res.status(200).json({ token: tokens, user: req.user });
   }
 );
 
@@ -109,10 +108,15 @@ export const googleAuth = validator.catchError(
     }
 
     const tokens = await utils.generateAuthJWT(email);
+    res.statusMessage = "Signed In successful";
+    res.status(200).json({ token: tokens, user: req.user });
+  }
+);
 
-    res
-      .status(200)
-      .json({ message: "Signed In successful", token: tokens, user: req.user });
+export const trySignIn = validator.catchError(
+  async (req: AuthenticatedRequest, res: Response) => {
+    await middleware.checkUser(req.user);
+    res.status(200).json(req.user);
   }
 );
 

@@ -1,9 +1,10 @@
-import 'package:SmartAR/core/services/token_storage.dart';
-import 'package:SmartAR/core/types/auth.dart';
-import 'package:SmartAR/data/sources/providers/index.dart';
-import 'package:SmartAR/data/sources/remote/instances.dart';
+import 'dart:convert';
+
+import 'package:smartar/core/services/token_storage.dart';
+import 'package:smartar/core/types/auth.dart';
+import 'package:smartar/data/sources/providers/index.dart';
+import 'package:smartar/data/sources/remote/instances.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,18 +22,15 @@ class _AuthService {
       final idToken = auth.idToken;
 
       // try {
-      final Response<APIRes<AuthRes>> response = await authHttp.post(
+      final Response<APIRes<dynamic>> response = await authHttp.post(
         '/google',
-        data: {idToken},
+        data: {"idToken": idToken},
       );
 
-      debugPrint('${response.data!.status.code}');
-      debugPrint(response.data!.status.message);
-
       if (response.data!.status.success) {
-        final res = response.data!.data!;
+        final res = AuthRes.fromJson(response.data!.data);
+        await tokenStorage.saveTokens(res.token);
         ref.read(authProvider.notifier).login(res.user);
-        tokenStorage.saveTokens(res.token);
       }
 
       if (response.data!.status.code == StatusCode.unAuthenticated) logout(ref);
@@ -57,23 +55,34 @@ class _AuthService {
     final path = isSignin! ? '/sign_in' : '/sign_up';
 
     // try {
-    final Response<APIRes<AuthRes>> response = await authHttp.post(
+    final Response<APIRes<dynamic>> response = await authHttp.post(
       path,
-      data: {...data},
+      data: jsonEncode(data),
     );
 
-    debugPrint('${response.data!.status.code}');
-    debugPrint(response.data!.status.message);
-
     if (response.data!.status.success) {
-      final res = response.data!.data!;
+      final res = AuthRes.fromJson(response.data!.data);
+      await tokenStorage.saveTokens(res.token);
       ref.read(authProvider.notifier).login(res.user);
-      tokenStorage.saveTokens(res.token);
     }
 
     if (response.data!.status.code == StatusCode.unAuthenticated) logout(ref);
 
     ref.read(statusMessageProv.notifier).state = response.data!.status;
+  }
+
+  Future<void> tryAuth(WidgetRef ref) async {
+    // try {
+    final Response<APIRes<dynamic>> response = await authHttp.get(
+      '/try_sign_in',
+    );
+
+    if (response.data!.status.success) {
+      final user = MiniUser.fromJson(response.data!.data);
+      ref.read(authProvider.notifier).login(user);
+    }
+
+    if (response.data!.status.code == StatusCode.unAuthenticated) logout(ref);
   }
 
   Future<void> logout(WidgetRef ref) async {

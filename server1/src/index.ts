@@ -8,6 +8,7 @@ import {
   refreshToken,
   signin,
   signup,
+  trySignIn,
 } from "./controllers/auth.controller";
 import morgan from "morgan";
 
@@ -27,6 +28,7 @@ if (isProduction) {
 
   app.use(authenticate);
 
+  app.get("/api/auth/try_sign_in", trySignIn);
   app.post("/api/auth/sign_in", signin);
   app.post("/api/auth/sign_up", signup);
 
