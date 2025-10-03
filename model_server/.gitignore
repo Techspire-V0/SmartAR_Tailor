@@ -1,0 +1,6 @@
+video.mp4
+video2.mp4
+/input_data
+ckpt.tar.gz*
+/.ipynb_checkpoints/
+/__pycache__
