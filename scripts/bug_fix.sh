@@ -1,6 +1,6 @@
 #!/bin/bash
 
-conda_env="smpler_x"
+conda_env="smart_ar_smpler_x"
 file="$(conda info --base)/envs/$conda_env/lib/python3.8/site-packages/torchgeometry/core/conversions.py"
 if [ ! -f "$file" ]; then
     echo "Fail：$file does not exist!"

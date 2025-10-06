@@ -1,6 +1,6 @@
 #!/bin/bash
 
-conda_env="eva"
+conda_env="smart_ar_eva"
 file="$(conda info --base)/envs/$conda_env/lib/python3.10/site-packages/torchgeometry/core/conversions.py"
 if [ ! -f "$file" ]; then
     echo "Fail：$file does not exist!"

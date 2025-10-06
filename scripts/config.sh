@@ -2,4 +2,4 @@
 export OUT_PATH=${ROOT_PATH}/smplifyx
 CONDA_PATH=$(conda info --base)
 source ${CONDA_PATH}/etc/profile.d/conda.sh
-conda activate eva
+conda activate smart_ar_eva
