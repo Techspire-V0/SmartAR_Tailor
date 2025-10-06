@@ -1,0 +1,3 @@
+[submodule "model_server/eva_avatar"]
+	path = model_server/eva_avatar
+	url = https://github.com/evahuman/EVA_Official

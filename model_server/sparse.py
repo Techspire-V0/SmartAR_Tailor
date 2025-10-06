@@ -28,10 +28,11 @@ from base_utils import normalize, point_dist, InputPadder
 
 origin_dir = pathlib.Path(__file__).resolve().parent
 
+
 class Spare:
     height: Tuple[Tuple[int, int], Tuple[int, int]] = None
     real_height_m: float = 0.0
-    device="0"
+    device = "0"
     device_str = "cuda" if torch.cuda.is_available() else "cpu"
     seg_session = new_session("u2net_human_seg")
 
@@ -72,17 +73,19 @@ class Spare:
 
         # first_frame = cv2.rotate(first_frame, cv2.ROTATE_90_COUNTERCLOCKWISE)
         # h, w, _ = first_frame.shape
-        
+
         # foreground = remove(first_frame, session=self.seg_session)
         # cv2.imwrite(str(frame_dir / "0001.jpg"), cv2.cvtColor(foreground, cv2.COLOR_RGBA2BGR))
-        
+
         # 3. BATCH PROCESSING: Process the rest of the video in chunks
         # kept_frame_count = 1
         kept_frame_count = 0
         num_frames_to_keep = 30
         # total_frames_count = len(video_frames)
         total_frames_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
-        skip_count = total_frames_count // num_frames_to_keep  # Adjust based on your VRAM
+        skip_count = (
+            total_frames_count // num_frames_to_keep
+        )  # Adjust based on your VRAM
 
         with tqdm(total=30, desc="Processing Video", unit="frame") as pbar:
             while True:
@@ -95,11 +98,13 @@ class Spare:
                     kept_frame_count += 1
                     frame_id = f"{kept_frame_count:04d}"
                     frame_path = frame_dir / f"{frame_id}.jpg"
-                    cv2.imwrite(str(frame_path), cv2.cvtColor(foreground, cv2.COLOR_RGBA2BGR))
+                    cv2.imwrite(
+                        str(frame_path), cv2.cvtColor(foreground, cv2.COLOR_RGBA2BGR)
+                    )
                     pbar.update(1)
                 kept_frame_count += 1
         cap.release()
-         
+
         # for frame_loop_index in tqdm(range(num_frames_to_keep), desc="Processing frames"):
         #     frame_index = (frame_loop_index+1) * skip_count
         #     frame_index = frame_index if frame_index < total_frames_count else total_frames_count - 1
@@ -112,7 +117,9 @@ class Spare:
         #     frame_path = frame_dir / f"{frame_id}.jpg"
         #     cv2.imwrite(str(frame_path), cv2.cvtColor(foreground, cv2.COLOR_RGBA2BGR))
 
-        print(f"\n✅ Finished. Selected and saved {kept_frame_count} frames to {frame_dir}")
+        print(
+            f"\n✅ Finished. Selected and saved {kept_frame_count} frames to {frame_dir}"
+        )
         return frame_dir
 
     def preprocess(self):
@@ -120,10 +127,10 @@ class Spare:
         pre_frames_dir = self.video_to_frames()
         print(f"Extracted frames to {pre_frames_dir}")
 
-        # env = os.environ.copy()
-        # env["ROOT_PATH"] = pre_frames_dir
-        # # Run the shell script with the environment variable set
-        # subprocess.run(["bash", "Full_running_command.sh"], env=env, check=True)
+        env = os.environ.copy()
+        env["ROOT_PATH"] = pre_frames_dir
+        # Run the shell script with the environment variable set
+        subprocess.run(["bash", "Full_running_command.sh"], env=env, check=True)
 
     # @jaxtyped(typechecker=beartype)
     def comput_height(
@@ -207,9 +214,7 @@ class Spare:
 
         return scale, est_height
 
-    def apply_global_scale(
-        self, reconstruction, scale: float, output_dir:str
-    ):
+    def apply_global_scale(self, reconstruction, scale: float, output_dir: str):
         # Scale all camera translations
         for img in reconstruction.images.values():
             if img.has_pose:
