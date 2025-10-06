@@ -129,8 +129,17 @@ class Spare:
 
         env = os.environ.copy()
         env["ROOT_PATH"] = pre_frames_dir
+        current_dir = os.getcwd()
+        target_dir = os.path.abspath(os.path.join(current_dir, "./eva_avatar"))
         # Run the shell script with the environment variable set
-        subprocess.run(["bash", "Full_running_command.sh"], env=env, check=True)
+        subprocess.run(
+            ["bash", "Full_running_command.sh"],
+            cwd=target_dir,
+            capture_output=True,
+            env=env,
+            text=True,
+            check=True,
+        )
 
     # @jaxtyped(typechecker=beartype)
     def comput_height(

@@ -7,7 +7,7 @@ pip install torch==1.12.0+cu116 torchvision==0.13.0+cu116 --extra-index-url http
 
 pip install mmcv-full==1.7.1 -f https://download.openmmlab.com/mmcv/dist/cu116/torch1.12.0/index.html
 
-cd ../eva_avatars
+cd ../eva_avatar
 
 pip install -r preprocess/SMPLer-X/requirements.txt
 pip install -v -e preprocess/SMPLer-X/main/transformer_utils
